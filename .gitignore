@@ -1,0 +1,4 @@
+
+framework/.idea/*
+framework/*.pyc
+*.pyc

@@ -1,0 +1,148 @@
+[[extend "layout.html"]]
+<section class="section" id="vue">
+<div v-if="show_test_suites == true" class="container">
+    <div class="columns">
+      <div class="column is-full">
+        <div class="notification is-primary">
+          Available Test Suites
+        </div>
+      </div>
+    </div>
+    <div class="rows">
+    <table class="table" style="width:50%">
+        <tr>
+          <th>Test Suites</th>
+          <th></th>
+          <th></th>
+        </tr>
+      <tr v-for="item in suites">
+        <td>{{item}}</td>
+        <td>
+          <button class="button" v-on:click="suite_details(item)">
+            <i></i>&nbsp;Details
+          </button>
+        </td>
+        <td>
+          <button class="button" v-on:click="run_test(item)">
+            <i></i>&nbsp;Run
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div v-if="show_suite_details == true" class="container">
+    <div class="columns">
+      <div class="column is-full">
+        <div class="notification is-primary">
+          Test Suite Details
+        </div>
+      </div>
+    </div>
+    <div class="rows">
+    <table class="table" style="width:50%">
+        <tr>
+          <th>Testcases</th>
+          <th></th>
+        </tr>
+      <tr v-for="item in suite_tests">
+        <td>{{item}}</td>
+        <td>
+          <button class="button" v-on:click="run_test(item)">
+            <i></i>&nbsp;Run
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div v-if="show_execution_summary == true" class="container">
+    <div class="columns">
+      <div class="column is-full">
+        <div class="notification is-primary">
+          Execution Results
+        </div>
+      </div>
+    </div>          
+    <div class="rows">
+    <table class="table" style="width:100%">
+        <tr>
+          <th>Execution ID</th>
+          <th>Execution Name</th>
+          <th>Total</th>
+          <th>Passed</th>
+          <th>Failed</th>
+      </tr>
+      <tr v-for="item in items">
+        <td>{{item.execution_id}}</td>
+        <td>{{item.execution_name}}</td>
+        <td>{{item.total}}</td>
+        <td>{{item.passed}}</td>
+        <td>{{item.failed}}</td>
+        <td>
+          <button class="button" v-on:click="details(item.execution_id)">
+            <i class="fa fa-info"></i>&nbsp;Details
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div v-if="show_execution_results == true" class="container">
+    <div class="columns">
+      <div class="column is-full">
+        <div class="notification is-primary">
+          Execution Details
+        </div>
+      </div>
+    </div>          
+    <div class="rows">
+    <table class="table" style="width:100%">
+        <tr>
+          <th>Testcase ID</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+      </tr>
+      <tr v-for="(value, key) in exec_data">
+        <td>{{key}}</td>
+        <td>{{value.start_time}}</td>
+        <td>{{value.end_time}}</td>
+        <td>{{value.status}}</td>
+        <td>
+          <button class="button" v-on:click="tc_details(key)">
+            <i class="fa fa-info"></i>&nbsp;Details
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div v-if="show_test_step_results == true" class="container">
+    <div class="columns">
+      <div class="column is-full">
+        <div class="notification is-primary">
+          Testcase Details
+        </div>
+      </div>
+    </div>          
+    <div class="rows">
+    <table class="table" style="width:100%">
+        <tr>
+          <th>Timestamp</th>
+          <th>Description</th>
+          <th>Passed</th>
+          <th></th>
+      </tr>
+      <tr v-for="item in tc_step_data">
+        <td>{{item.timestamp}}</td>
+        <td>{{item.description}}<br><pre>{{item.message}}</pre></td>
+        <td>{{item.passed}}<br></td>
+        <td>
+           <img :src="getImgUrl(item.screenshot)" v-bind:alt="item.description" width="200" height="400">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</section>
