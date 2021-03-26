@@ -139,7 +139,7 @@
         <td>{{item.description}}<br><pre>{{item.message}}</pre></td>
         <td>{{item.passed}}<br></td>
         <td>
-           <img :src="getImgUrl(item.screenshot)" v-bind:alt="item.description" width="200" height="400">
+           <img :src="item.screenshot" v-bind:alt="item.description" width="200" height="400">
         </td>
       </tr>
     </table>

@@ -54,10 +54,6 @@ myapp.methods.run_test = function(item_id) {
         });
 };
 
-myapp.methods.getImgUrl = function(screenshot) { 
-                    return "data:image/png;base64, " + screenshot;
-                    
-};
 
 // start the app
 myapp.start();

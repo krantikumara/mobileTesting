@@ -31,6 +31,7 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from datetime import datetime
 from py4web.utils.publisher import Publisher, ALLOW_ALL_POLICY
 import xmlrpc.client
+import base64
 
 
 @action("index")
@@ -65,6 +66,13 @@ def fetch_execution_details():
     execution_row.execution_data
     
     return dict(data=execution_row.execution_data)
+    
+    
+@action("api/get_screenshot")
+def fetch_execution_details():
+    screenshot_id = request.query["screenshot_id"]
+    screenshot_row = db(db.execution_screenshots.id == screenshot_id).select().first()
+    return base64.b64decode(screenshot_row.screenshot)
 
 
 @action('api/execution/report_test', method='POST')
@@ -125,6 +133,10 @@ def record_step():
         return dict()
     
     json_data = execution_row.execution_data
+    
+    screenshot_id = db.execution_screenshots.insert(execution_id=exec_id, screenshot=request.json["screenshot"])
+    
+    request.json["screenshot"] = URL("api/get_screenshot", vars=dict(screenshot_id=screenshot_id))
     
     if tc_id in json_data["steps"]:
         json_data["steps"][tc_id].append(request.json)
